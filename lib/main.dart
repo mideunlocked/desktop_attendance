@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.black,
+        appBarTheme: AppBarTheme(backgroundColor: HexColor("0F1339")),
         textSelectionTheme:
             TextSelectionThemeData(cursorColor: HexColor("0F1339")),
         textTheme: const TextTheme(
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.w500,
             fontSize: 20,
           ),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: HexColor('0F1339'),
         ),
       ),
       home: const HomePage(),

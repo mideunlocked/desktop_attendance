@@ -97,7 +97,9 @@ class _HomePageState extends State<HomePage> {
           size: isScreenSmall,
         );
       case 2:
-        return const StudentListPage();
+        return StudentListPage(
+          screenSize: isScreenSmall,
+        );
       case 3:
         return const ReportsPage();
       case 4:

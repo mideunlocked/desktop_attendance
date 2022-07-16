@@ -44,11 +44,11 @@ class _AttendancePageState extends State<AttendancePage> {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: TextField(
                 decoration: InputDecoration(
-                  prefixIcon: IconButton(
+                  suffixIcon: IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.search_rounded,
-                        color: Colors.grey[300],
+                        color: Colors.black,
                       )),
                   hintText: "Search students by id or name",
                   hintStyle:
