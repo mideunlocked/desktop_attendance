@@ -27,7 +27,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
       vertical: 20,
     );
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,

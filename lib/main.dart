@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import 'pages/home_page.dart';
 
@@ -19,6 +20,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.black,
+        textSelectionTheme:
+            TextSelectionThemeData(cursorColor: HexColor("0F1339")),
         textTheme: const TextTheme(
           headlineLarge: TextStyle(
             color: Colors.black,
