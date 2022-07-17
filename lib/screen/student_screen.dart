@@ -1,8 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../models/parent_detail.dart';
+
 class StudentScreen extends StatelessWidget {
-  const StudentScreen({Key? key}) : super(key: key);
+  final String name;
+  final String number;
+  final String id;
+  final String imageUrl;
+  final String emailAddress;
+  final String totalAttendanceNumber;
+  final ParentDetails parentDetails;
+
+  const StudentScreen({
+    Key? key,
+    required this.name,
+    required this.number,
+    required this.id,
+    required this.imageUrl,
+    required this.emailAddress,
+    required this.parentDetails,
+    required this.totalAttendanceNumber,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,35 +44,52 @@ class StudentScreen extends StatelessWidget {
                 width: 200,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                    "https://p.kindpng.com/picc/s/451-4517876_default-profile-hd-png-download.png",
-                    fit: BoxFit.cover,
-                    height: 180,
-                    width: double.infinity,
-                    errorBuilder: ((context, error, stackTrace) {
-                      return SizedBox(
-                        height: 180,
-                        width: double.infinity,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: HexColor("C5C3FF"),
-                          ),
+                  child: imageUrl == "null"
+                      ? Image.asset(
+                          "assets\\deafult_profile.png",
+                          fit: BoxFit.cover,
+                          height: 180,
+                          width: double.infinity,
+                          errorBuilder: ((context, error, stackTrace) {
+                            return SizedBox(
+                              height: 180,
+                              width: double.infinity,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: HexColor("C5C3FF"),
+                                ),
+                              ),
+                            );
+                          }),
+                        )
+                      : Image.file(
+                          File(imageUrl),
+                          fit: BoxFit.cover,
+                          height: 180,
+                          width: double.infinity,
+                          errorBuilder: ((context, error, stackTrace) {
+                            return SizedBox(
+                              height: 180,
+                              width: double.infinity,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: HexColor("C5C3FF"),
+                                ),
+                              ),
+                            );
+                          }),
                         ),
-                      );
-                    }),
-                  ),
                 ),
               ),
               const SizedBox(
                 height: 50,
               ),
-              const StudentInfoTile(title: "ID", value: "001"),
-              const StudentInfoTile(title: "Student name", value: "John Doe"),
-              const StudentInfoTile(title: "Phone", value: "07040225758"),
-              const StudentInfoTile(
-                  title: "Email address", value: "johndoe@gmail.com"),
-              const StudentInfoTile(
-                  title: "Term total attendance", value: "30"),
+              StudentInfoTile(title: "ID", value: id),
+              StudentInfoTile(title: "Student name", value: name),
+              StudentInfoTile(title: "Phone", value: number),
+              StudentInfoTile(title: "Email address", value: emailAddress),
+              StudentInfoTile(
+                  title: "Term total attendance", value: totalAttendanceNumber),
               const SizedBox(
                 height: 30,
               ),
@@ -65,29 +103,29 @@ class StudentScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              const StudentInfoTile(
+              StudentInfoTile(
                 title: "1st Guardian name",
-                value: "Mr Doe",
+                value: parentDetails.fatherEmail,
               ),
-              const StudentInfoTile(
+              StudentInfoTile(
                 title: "1st Guardian number",
-                value: "07040225758",
+                value: parentDetails.fatherNumber,
               ),
-              const StudentInfoTile(
+              StudentInfoTile(
                 title: "1st Guardian email",
-                value: "mrdoe@gmail.com",
+                value: parentDetails.fatherEmail,
               ),
-              const StudentInfoTile(
+              StudentInfoTile(
                 title: "2nd Guardian name",
-                value: "Mrs Doe",
+                value: parentDetails.motherName,
               ),
-              const StudentInfoTile(
+              StudentInfoTile(
                 title: "2nd Guardian number",
-                value: "07040225758",
+                value: parentDetails.motherNumber,
               ),
-              const StudentInfoTile(
+              StudentInfoTile(
                 title: "2nd Guardian email",
-                value: "mrsdoe@gmail.com",
+                value: parentDetails.motherEmail,
               ),
             ],
           ),

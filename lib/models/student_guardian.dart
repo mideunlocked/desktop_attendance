@@ -1,4 +1,4 @@
-import 'package:windows_demo/class/student.dart';
+import 'student.dart';
 
 class StudentGuardian {
   final String name;
