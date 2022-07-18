@@ -27,8 +27,8 @@ class StudentsProvider with ChangeNotifier {
 
   void createNewStudent(
     String name,
-    String id,
-    String regularityNumber,
+    String email,
+    String number,
     String motherName,
     String fatherName,
     String motherNumber,
@@ -36,18 +36,23 @@ class StudentsProvider with ChangeNotifier {
     String motherEmail,
     String fatherEmail,
   ) {
-    students.add(
+    final newId = students.length + 1;
+
+    _students.add(
       Student(
         name: name,
-        id: id,
+        id: newId.toString(),
+        emailAddress: email,
+        number: number,
         regularityNumber: 0,
         parentDetails: ParentDetails(
-            motherNumber: motherNumber,
-            fatherName: fatherName,
-            motherName: motherName,
-            fatherNumber: fatherNumber,
-            fatherEmail: fatherEmail,
-            motherEmail: motherEmail),
+          motherNumber: motherNumber,
+          fatherName: fatherName,
+          motherName: motherName,
+          fatherNumber: fatherNumber,
+          fatherEmail: fatherEmail,
+          motherEmail: motherEmail,
+        ),
       ),
     );
     notifyListeners();
@@ -61,7 +66,8 @@ class StudentsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteStudent() {
+  void deleteStudent(int id) {
+    _students.removeAt(id);
     notifyListeners();
   }
 
