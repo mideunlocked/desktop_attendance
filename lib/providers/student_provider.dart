@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:windows_demo/helpers/sql_db_helper.dart';
 import 'package:windows_demo/models/parent_detail.dart';
 
 import '../models/student.dart';
 
 class StudentsProvider with ChangeNotifier {
-  final List<Student> _students = [
+  List<Student> _students = [
     Student(
       name: "Johnny Dang",
       id: "01",
@@ -55,6 +56,22 @@ class StudentsProvider with ChangeNotifier {
         ),
       ),
     );
+
+    // SqlDBHelper.insert("student", {
+    //   "id": newId,
+    //   "name": name,
+    //   "number": number,
+    //   "email": email,
+    //   "totalAttendance": 0,
+    //   "imageUrl": "null",
+    //   "1st_guardianName": fatherName,
+    //   "1st_guardianNumber": fatherNumber,
+    //   "1st_guardianEmail": fatherEmail,
+    //   "2nd_guardianName": motherName,
+    //   "2nd_guardianNumber": motherNumber,
+    //   "2nd_guardianEmail": motherEmail,
+    // });
+
     notifyListeners();
   }
 
@@ -62,7 +79,27 @@ class StudentsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getStudents() {
+  Future<void> getStudents() async {
+    // final studentList = await SqlDBHelper.getData("student");
+    // _students = studentList
+    //     .map(
+    //       (student) => Student(
+    //         name: student["name"],
+    //         id: student["id"],
+    //         emailAddress: student["email"],
+    //         number: student["numbeer"],
+    //         regularityNumber: student["totalAttendance"],
+    //         parentDetails: ParentDetails(
+    //           fatherEmail: student["1st_guardianName"],
+    //           motherEmail: student["2nd_guardianName"],
+    //           motherNumber: student["2nd_guardianNumber"],
+    //           fatherName: student['1st_guardianName'],
+    //           motherName: student["2nd_guardianName"],
+    //           fatherNumber: student["1st_guardianNumber"],
+    //         ),
+    //       ),
+    //     )
+    //     .toList();
     notifyListeners();
   }
 

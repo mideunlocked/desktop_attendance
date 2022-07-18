@@ -67,131 +67,149 @@ class _StudentListPageState extends State<StudentListPage> {
   @override
   Widget build(BuildContext context) {
     var size2 = MediaQuery.of(context).size;
-    return Consumer<StudentsProvider>(
-      builder: ((context, snapshot, child) => Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
+    return FutureBuilder(
+      future:
+          Provider.of<StudentsProvider>(context, listen: false).getStudents(),
+      builder: ((context, snapshot) => snapshot.connectionState ==
+              ConnectionState.waiting
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            )
+          : Consumer<StudentsProvider>(
+              builder: ((context, studentData, child) => Padding(
+                    padding: const EdgeInsets.all(20),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        widget.screenSize == false
-                            ? Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: customStudentListAppBar(size2),
-                              )
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: customStudentListAppBar(size2),
-                              ),
-                        selectActive == true
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                      selectedIndex.isEmpty == true
-                                          ? Colors.grey
-                                          : Colors.red,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    var index = 0;
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                widget.screenSize == false
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children:
+                                            customStudentListAppBar(size2),
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children:
+                                            customStudentListAppBar(size2),
+                                      ),
+                                selectActive == true
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextButton(
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                              selectedIndex.isEmpty == true
+                                                  ? Colors.grey
+                                                  : Colors.red,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            var index = 0;
 
-                                    for (index in selectedIndex) {
-                                      snapshot.deleteStudent(index);
-                                    }
-                                  },
-                                  child: Text(
-                                    "Delete ${selectedIndex.length} students",
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
+                                            for (index in selectedIndex) {
+                                              studentData.deleteStudent(index);
+                                            }
+                                          },
+                                          child: Text(
+                                            "Delete ${selectedIndex.length} students",
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      )
+                                    : const Text(""),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 300,
+                              childAspectRatio: 6 / 7,
+                              crossAxisSpacing: 20,
+                              mainAxisSpacing: 20,
+                            ),
+                            itemCount: studentData.students.length,
+                            itemBuilder: ((context, index) {
+                              var value = studentData.students[index];
+                              bool isSelected = false;
+                              bool isChanged = false;
+
+                              void toggle() {
+                                setState(() {
+                                  isChanged = !isChanged;
+                                  isSelected = isChanged;
+                                });
+                              }
+
+                              return InkWell(
+                                onLongPress: () {
+                                  setState(() {
+                                    selectActive = !selectActive;
+                                  });
+                                },
+                                child: Stack(
+                                  children: [
+                                    CustomStudentTile(
+                                      name: value.name,
+                                      number: value.number,
+                                      id: value.id,
+                                      imageUrl: value.imageUrl,
+                                      emailAddress: value.emailAddress,
+                                      totalAttendanceNumber:
+                                          value.regularityNumber.toString(),
+                                      parentDetails: value.parentDetails,
+                                    ),
+                                    selectActive == true
+                                        ? IconButton(
+                                            onPressed: () {
+                                              toggle();
+
+                                              if (selectedIndex
+                                                      .contains(index) ==
+                                                  true) {
+                                                selectedIndex.removeWhere(
+                                                    (element) =>
+                                                        element == index);
+                                              } else {
+                                                selectedIndex.add(index);
+                                              }
+                                            },
+                                            icon: isSelected == false
+                                                ? const Icon(
+                                                    Icons
+                                                        .check_box_outline_blank_rounded,
+                                                    color: Colors.grey,
+                                                  )
+                                                : const Icon(
+                                                    Icons.check_box_rounded,
+                                                    color: Colors.grey),
+                                          )
+                                        : const Text(""),
+                                  ],
                                 ),
-                              )
-                            : const Text(""),
+                              );
+                            }),
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ),
-                Flexible(
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 300,
-                      childAspectRatio: 6 / 7,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                    ),
-                    itemCount: snapshot.students.length,
-                    itemBuilder: ((context, index) {
-                      var value = snapshot.students[index];
-                      bool isSelected = false;
-                      bool isChanged = false;
-
-                      void toggle() {
-                        setState(() {
-                          isChanged = !isChanged;
-                          isSelected = isChanged;
-                        });
-                      }
-
-                      return InkWell(
-                        onLongPress: () {
-                          setState(() {
-                            selectActive = !selectActive;
-                          });
-                        },
-                        child: Stack(
-                          children: [
-                            CustomStudentTile(
-                              name: value.name,
-                              number: value.number,
-                              id: value.id,
-                              imageUrl: value.imageUrl,
-                              emailAddress: value.emailAddress,
-                              totalAttendanceNumber:
-                                  value.regularityNumber.toString(),
-                              parentDetails: value.parentDetails,
-                            ),
-                            selectActive == true
-                                ? IconButton(
-                                    onPressed: () {
-                                      toggle();
-
-                                      if (selectedIndex.contains(index) ==
-                                          true) {
-                                        selectedIndex.removeWhere(
-                                            (element) => element == index);
-                                      } else {
-                                        selectedIndex.add(index);
-                                      }
-                                    },
-                                    icon: isSelected == false
-                                        ? const Icon(
-                                            Icons
-                                                .check_box_outline_blank_rounded,
-                                            color: Colors.grey,
-                                          )
-                                        : const Icon(Icons.check_box_rounded,
-                                            color: Colors.grey),
-                                  )
-                                : const Text(""),
-                          ],
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-              ],
-            ),
-          )),
+                  )),
+            )),
     );
   }
 
