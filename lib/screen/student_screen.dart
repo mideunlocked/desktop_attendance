@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../models/parent_detail.dart';
+import '../models/student.dart';
 import '../widgets/student_info_tile.dart';
 
 class StudentScreen extends StatefulWidget {
