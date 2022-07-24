@@ -1,8 +1,8 @@
 import 'parent_detail.dart';
 
 class Student {
-  final String name;
   final String id;
+  final String name;
   final String imageUrl;
   final String emailAddress;
   final int regularityNumber;

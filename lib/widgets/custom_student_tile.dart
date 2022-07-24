@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -61,20 +59,9 @@ class CustomStudentTile extends StatelessWidget {
                         fit: BoxFit.cover,
                         height: 180,
                         width: double.infinity,
-                        errorBuilder: ((context, error, stackTrace) {
-                          return SizedBox(
-                            height: 180,
-                            width: double.infinity,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: HexColor("C5C3FF"),
-                              ),
-                            ),
-                          );
-                        }),
                       )
-                    : Image.file(
-                        File(imageUrl),
+                    : Image.network(
+                        imageUrl,
                         fit: BoxFit.cover,
                         height: 180,
                         width: double.infinity,
